@@ -4,11 +4,11 @@ WORKDIR /app
 
 COPY package*.json ./
 COPY scripts ./scripts
-RUN npm install --omit=dev
-
 COPY tsconfig.json ./
 COPY src ./src
-RUN npm install typescript --no-save && npx tsc
+
+RUN npm install
+RUN npm prune --omit=dev
 
 # supergateway bridges this stdio MCP server to SSE/HTTP so Claude.ai can reach it remotely
 RUN npm install -g supergateway

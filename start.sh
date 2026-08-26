@@ -1,8 +1,8 @@
 #!/bin/sh
 exec supergateway --stdio "node dist/index.js" \
+  --outputTransport streamableHttp \
   --port "$PORT" \
-  --baseUrl "https://$RAILWAY_PUBLIC_DOMAIN" \
-  --ssePath /sse \
-  --messagePath /message \
+  --streamableHttpPath /mcp \
+  --stateful \
   --cors \
   --healthEndpoint /health

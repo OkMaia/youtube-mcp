@@ -89,6 +89,61 @@ claude mcp list
 
 You should see `youtube` listed with a Connected status.
 
+## Deploy to Heroku (Streamable HTTP)
+
+The Heroku web process exposes:
+
+- MCP endpoint: `https://YOUR_HEROKU_HOST/mcp`
+- Health check: `https://YOUR_HEROKU_HOST/health`
+
+The repository includes a `Procfile` and uses Heroku's assigned `PORT`
+automatically.
+
+### 1. Create the app
+
+```text
+heroku login
+heroku create YOUR_APP_NAME
+```
+
+### 2. Configure secrets
+
+```text
+heroku config:set YOUTUBE_API_KEY=YOUR_API_KEY --app YOUR_APP_NAME
+heroku config:set YOUTUBE_TIMEOUT=25000 --app YOUR_APP_NAME
+```
+
+`MCP_SESSION_TIMEOUT` is optional and defaults to `300000` milliseconds.
+
+### 3. Deploy
+
+```text
+git push heroku main
+heroku ps:scale web=1 --app YOUR_APP_NAME
+```
+
+If `heroku create` did not add the Git remote, add it before pushing:
+
+```text
+heroku git:remote --app YOUR_APP_NAME
+```
+
+### 4. Verify
+
+```text
+heroku apps:info --app YOUR_APP_NAME
+curl https://YOUR_HEROKU_HOST/health
+```
+
+Use the Web URL shown by `heroku apps:info` as `YOUR_HEROKU_HOST`. The health
+response should be `ok`. Configure your MCP client with the `/mcp` URL, not the
+health-check URL.
+
+> **Security:** This endpoint does not currently require authentication.
+> Anyone with the URL can call the tools and consume your YouTube API quota.
+> Restrict the Google API key to the YouTube Data API v3 and do not publish
+> the endpoint URL.
+
 ---
 
 ## Features

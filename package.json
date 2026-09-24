@@ -10,15 +10,17 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
+    "start:http": "sh ./start.sh",
     "prepare": "npm run build",
     "postinstall": "node scripts/postinstall.js",
     "install:claude": "node scripts/install-claude-code.js"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": "24.x"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.4",
+    "supergateway": "3.4.3",
     "zod": "^3.24.1"
   },
   "devDependencies": {
